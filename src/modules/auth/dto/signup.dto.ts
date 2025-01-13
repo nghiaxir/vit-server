@@ -90,5 +90,5 @@ export class SignupDto {
   @ApiProperty({ required: false, default: true })
   @IsOptional()
   @IsBoolean()
-  isSendMail: Boolean;
+  isSendMail: boolean;
 }

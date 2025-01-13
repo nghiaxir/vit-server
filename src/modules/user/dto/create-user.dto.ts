@@ -6,7 +6,7 @@ export class CreateUserDto {
   fullname: string;
   email: string;
   phone: string;
-  birthday?: string | number;
+  birthday?: string | number | Date;
   gen?: number;
   hometown?: string;
   address?: string;
@@ -14,7 +14,7 @@ export class CreateUserDto {
   studentId?: string;
   class?: string;
   cccd?: string;
-  dateJoin?: string | number;
+  dateJoin?: string | number | Date;
   dateOut?: string | number;
   gender?: Gender;
   position?: Position;

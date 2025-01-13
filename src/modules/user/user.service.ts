@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Position, User, UserStatus } from '@prisma/client';
 import { MessageDto, ResponseDto } from 'src/shares/dto';

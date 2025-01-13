@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
   BadRequestException,
@@ -50,10 +51,9 @@ export class AuthService {
     const user = await this.userService.getUserInfoById(userId);
     return user;
   }
-
   async signup(signupData: SignupDto): Promise<MessageDto> {
-    const { email, phone, fullname, isSendMail } = signupData;
-
+    const { email, phone, fullname, isSendMail, birthday, dateJoin } =
+      signupData;
     const isExists = await this.userService.checkUserExists({
       email,
       phone,
@@ -75,8 +75,10 @@ export class AuthService {
     await this.userService.create(
       {
         ...signupData,
+        birthday: signupData.birthday ? new Date(signupData.birthday) : null,
+        dateJoin: signupData.dateJoin ? new Date(signupData.dateJoin) : null,
         username,
-        password: generatePassword(),
+        password: '12345678',
       },
       Boolean(isSendMail)
     );

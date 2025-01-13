@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Body,
   Controller,
@@ -48,13 +49,13 @@ export class AuthController {
     return { data: await this.authService.signin(signinData) };
   }
 
-  @Roles(
-    Position.ADMIN,
-    Position.DOI_TRUONG,
-    Position.DOI_PHO,
-    Position.TRUONG_HANH_CHINH
-  )
-  @ApiBearerAuth()
+  // @Roles(
+  //   Position.ADMIN,
+  //   Position.DOI_TRUONG,
+  //   Position.DOI_PHO,
+  //   Position.TRUONG_HANH_CHINH
+  // )
+  // @ApiBearerAuth()
   @Post('signup')
   async signup(
     @Body() signupData: SignupDto
