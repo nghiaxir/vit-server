@@ -28,7 +28,6 @@ async function bootstrap() {
       basePath: '/v1',
     },
   });
-
   await app.listen(port || 2109);
 }
 bootstrap();

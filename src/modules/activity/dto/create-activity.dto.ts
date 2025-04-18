@@ -3,6 +3,7 @@ import { Transform, Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsArray,
+  IsBoolean,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -25,6 +26,11 @@ export class CreateActivityDto {
   @IsNotEmpty()
   @IsString()
   location: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsBoolean()
+  isCampain: boolean;
 
   @ApiProperty()
   @IsNotEmpty()

@@ -75,6 +75,10 @@ model Activity {
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   deletedAt   DateTime?
+  scrore      Int?
+  parentId    String?        @db.ObjectId
+  isCampain   Boolean
+  status      ActivityStatus @default(CREATED)
 }
 
 model ActivityTime {
@@ -89,17 +93,17 @@ model ActivityTime {
 }
 
 model UserActivity {
-  id         String         @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String         @db.ObjectId
-  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  timeId     String         @db.ObjectId
-  times      ActivityTime   @relation(fields: [timeId], references: [id], onDelete: Cascade)
-  activityId String         @db.ObjectId
-  activity   Activity       @relation(fields: [activityId], references: [id], onDelete: Cascade)
-  status     UserJoinStatus @default(REGISTERED)
-  position   Position       @default(THANH_VIEN)
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
+  id         String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String           @db.ObjectId
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  timeId     String           @db.ObjectId
+  times      ActivityTime     @relation(fields: [timeId], references: [id], onDelete: Cascade)
+  activityId String           @db.ObjectId
+  activity   Activity         @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  status     UserJoinStatus   @default(REGISTERED)
+  position   ActivityPosition @default(MEMBER)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
 
   @@unique([userId, timeId])
 }
@@ -254,4 +258,16 @@ enum UserJoinStatus {
   ACCEPTED
   WITHDRAWN
   REJECTED
+  ATTENDED
+}
+
+enum ActivityStatus {
+  CREATED
+  PENDING
+  ENDED
+}
+
+enum ActivityPosition {
+  MEMBER
+  TEAM_LEAD
 }

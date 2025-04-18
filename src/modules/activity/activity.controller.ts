@@ -42,6 +42,12 @@ export class ActivityController {
     );
   }
 
+  @UseGuards(JwtGuard)
+  @Get('campains')
+  async getAllCampains(): Promise<ResponseDto<{ id: string; name: string }[]>> {
+    return await this.activityService.getAllCampains();
+  }
+
   @Roles(Position.ADMIN, Position.TRUONG_HANH_CHINH)
   @Get('trash')
   async findAllDeleted(@Query() pagination: PaginationDto): Promise<

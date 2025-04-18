@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { UserJoinStatus } from '@prisma/client';
+import { Position, UserJoinStatus } from '@prisma/client';
 import * as moment from 'moment';
 import { MessageDto, ResponseDto } from 'src/shares/dto';
 import { httpErrors } from 'src/shares/exception';
@@ -133,6 +133,24 @@ export class ActivityService {
           })) / limit
         ),
       },
+    };
+  }
+
+  async getAllCampains(): Promise<ResponseDto<{ id: string; name: string }[]>> {
+    const now = new Date();
+    return {
+      data: await this.prisma.activity.findMany({
+        where: {
+          isCampain: true,
+          deadline: {
+            gt: now,
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      }),
     };
   }
 
