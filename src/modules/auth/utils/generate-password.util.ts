@@ -1,2 +1,2 @@
-export const generatePassword = (length: number = 8) =>
+export const generatePassword = (length = 8) =>
   Math.random().toString(36).slice(-length);

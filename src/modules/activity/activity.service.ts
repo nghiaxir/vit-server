@@ -108,10 +108,16 @@ export class ActivityService {
   ): Promise<ResponseDto<ActivityResponse[]>> {
     if (isNaN(page) || isNaN(limit))
       throw new HttpException(httpErrors.QUERY_INVALID, HttpStatus.BAD_REQUEST);
+    const now = new Date();
 
     return {
       data: await this.prisma.activity.findMany({
-        where: this.filterAllActivity,
+        where: {
+          ...this.filterAllActivity,
+          deadline: {
+            gte: now, // deadline >= ngày hiện tại
+          },
+        },
         skip: (page - 1) * limit,
         take: limit,
         include: {
@@ -129,7 +135,12 @@ export class ActivityService {
       pagination: {
         totalPage: Math.ceil(
           (await this.prisma.activity.count({
-            where: this.filterAllActivity,
+            where: {
+              ...this.filterAllActivity,
+              deadline: {
+                gte: now, // deadline >= ngày hiện tại
+              },
+            },
           })) / limit
         ),
       },
@@ -519,5 +530,51 @@ export class ActivityService {
       }
     }
     return topMember.sort((a, b) => b.count - a.count).slice(0, 6);
+  }
+
+  async findAllExpired(
+    page: number,
+    limit: number
+  ): Promise<ResponseDto<ActivityResponse[]>> {
+    if (isNaN(page) || isNaN(limit))
+      throw new HttpException(httpErrors.QUERY_INVALID, HttpStatus.BAD_REQUEST);
+
+    const now = new Date();
+
+    return {
+      data: await this.prisma.activity.findMany({
+        where: {
+          ...this.filterAllActivity,
+          deadline: {
+            lt: now, // lấy activity đã hết hạn
+          },
+        },
+        skip: (page - 1) * limit,
+        take: limit,
+        include: {
+          times: {
+            select: this.selectTimes,
+            orderBy: {
+              startTime: 'asc',
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      }),
+      pagination: {
+        totalPage: Math.ceil(
+          (await this.prisma.activity.count({
+            where: {
+              ...this.filterAllActivity,
+              deadline: {
+                lt: now, // đếm số activity đã hết hạn
+              },
+            },
+          })) / limit
+        ),
+      },
+    };
   }
 }

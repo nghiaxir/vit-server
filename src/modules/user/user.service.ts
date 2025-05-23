@@ -191,13 +191,12 @@ export class UserService {
     data: ChangePasswordFirstLoginDto
   ): Promise<MessageDto> {
     const { password, cfPassword } = data;
-    await this.getUserInfoById(id);
+    const user = await this.getUserInfoById(id);
     if (password !== cfPassword)
       throw new HttpException(
         httpErrors.PASSWORD_NOT_MATCH,
         HttpStatus.BAD_REQUEST
       );
-
     await this.prisma.user.update({
       where: { id },
       data: {
@@ -352,5 +351,12 @@ export class UserService {
       },
     });
     return [...doiTruong, ...doiPho];
+  }
+
+  async deleteUser(id: string): Promise<MessageDto> {
+    await this.prisma.user.delete({
+      where: { id },
+    });
+    return messageSuccess.USER_DELETE;
   }
 }

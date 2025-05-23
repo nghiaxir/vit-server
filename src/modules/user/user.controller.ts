@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Put,
@@ -88,5 +89,11 @@ export class UserController {
     @Body() data: UpdateUserDto
   ): Promise<ResponseDto<User>> {
     return { data: await this.userService.update(id, data) };
+  }
+
+  @Roles(Position.ADMIN, Position.TRUONG_HANH_CHINH)
+  @Delete(':id')
+  async softDelete(@Param('id') id: string): Promise<ResponseDto<MessageDto>> {
+    return { data: await this.userService.deleteUser(id) };
   }
 }

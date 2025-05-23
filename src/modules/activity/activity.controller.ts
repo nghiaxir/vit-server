@@ -32,11 +32,22 @@ export class ActivityController {
   constructor(private readonly activityService: ActivityService) {}
 
   @UseGuards(JwtGuard)
-  @Get()
+  @Get('active')
   async findAll(
     @Query() pagination: PaginationDto
   ): Promise<ResponseDto<ActivityResponse[]>> {
     return await this.activityService.findAll(
+      pagination.page,
+      pagination.limit
+    );
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('expired')
+  async findAllExpired(
+    @Query() pagination: PaginationDto
+  ): Promise<ResponseDto<ActivityResponse[]>> {
+    return await this.activityService.findAllExpired(
       pagination.page,
       pagination.limit
     );

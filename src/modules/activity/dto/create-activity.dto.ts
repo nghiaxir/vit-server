@@ -5,6 +5,7 @@ import {
   IsArray,
   IsBoolean,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   ValidateNested,
@@ -33,6 +34,10 @@ export class CreateActivityDto {
   isCampain: boolean;
 
   @ApiProperty()
+  @IsOptional()
+  parentId: string;
+
+  @ApiProperty()
   @IsNotEmpty()
   @Transform(({ value }) => new Date(value))
   deadline: Date;
@@ -48,4 +53,8 @@ export class CreateActivityDto {
   @IsOptional()
   @IsString()
   eventId: string;
+
+  @ApiProperty()
+  @IsNumber()
+  score: number;
 }
