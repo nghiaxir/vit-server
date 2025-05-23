@@ -42,6 +42,15 @@ export const messageSuccess = {
     message: 'Đã thêm thành viên thành công',
     code: 'USER_1004',
   },
+  USER_DELETE: {
+    message: 'Đã xoá tài khoản thành công',
+    code: 'USER_1005',
+  },
+
+  USER_UPDATE_STATUS: {
+    message: 'Đã cập nhật trạng thái tài khoản thành công',
+    code: 'USER_1006',
+  },
 
   // club
   CLUB_DELETE: {

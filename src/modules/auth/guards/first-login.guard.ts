@@ -27,14 +27,13 @@ export class FirstLoginGuard implements CanActivate {
         HttpStatus.UNAUTHORIZED
       );
     }
-
     try {
       const payload = await this.jwtService.verifyAsync(token);
       const user = await this.userService.getUserInfoById(payload.id);
       if (user.status === UserStatus.BLOCKED)
         throw new HttpException(httpErrors.BLOCKED_USER, HttpStatus.FORBIDDEN);
-      if ((user.status = UserStatus.ACTIVE))
-        throw new HttpException(httpErrors.ACTIVE_USER, HttpStatus.FORBIDDEN);
+      // if (user.status === UserStatus.INACTIVE)
+      //   throw new HttpException(httpErrors.INACTIVE_USER, HttpStatus.FORBIDDEN);
       req['user'] = user;
       return true;
     } catch (error: any) {
